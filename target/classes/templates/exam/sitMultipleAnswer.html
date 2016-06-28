@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html  ng-app="exam"  xmlns:th="">
+<head >
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>马克思主义模拟试题</title>
+    <script src="/amazui/js/jquery.min.js"></script>
+    <script src="/apijs/angular.min.js"></script>
+    <link rel="stylesheet" href="/amazui/css/amazeui.min.css"/>
+    <script src="/amazui/js/amazeui.min.js"></script>
+    <script src="/amazui/js/amazeui.legacy.js"></script>
+    <link rel="stylesheet" href="/css/exam.css" />
+    <script src="/apijs/exam/sitExamv.js"></script>
+</head>
+<body ng-controller="ExamMController" class="dv-bg">
+<!-- Home -->
+
+<div class="dv-border" ng-init="loadPaper()">
+
+    <div class="dv-topic">
+        <button type="button" class="am-btn am-btn-warning  am-round am-fr" ng-click="toHomePage()">返回主页</button>
+    </div>
+
+    <div class="dv-topic">
+        <span ng-bind="paperConfig.itemNo"></span>、<span ng-bind="item.topic"></span>
+    </div>
+
+    <div  class="{{getItemDivClass('A')}} am-cf am-vertical-align-middle" ng-show="anwser1Visible" ng-click="setChoose('A')">
+        <div  ng-show="isImgDivVisible('A')" class="{{getItemAnwserDivClass('A')}} am-fr am-vertical-align-middle">
+            <img class="img-item-pic" src="{{getImageRWUrl('A')}}"/>
+        </div>
+        <span ng-bind="item.anwser1"></span>
+    </div>
+    <div  class="{{getItemDivClass('B')}} am-vertical-align-middle" ng-show="anwser2Visible" ng-click="setChoose('B')">
+        <div  ng-show="isImgDivVisible('B')" class="{{getItemAnwserDivClass('B')}} am-fr  am-vertical-align-middle am-center">
+            <img  class="img-item-pic" src="{{getImageRWUrl('B')}}"/>
+        </div>
+        <span ng-bind="item.anwser2"></span>
+    </div>
+    <div  class="{{getItemDivClass('C')}} am-vertical-align-middle" ng-show="anwser3Visible" ng-click="setChoose('C')">
+        <div  ng-show="isImgDivVisible('C')" class="{{getItemAnwserDivClass('C')}} am-fr">
+            <img class="img-item-pic" src="{{getImageRWUrl('C')}}"/>
+        </div>
+        <span ng-bind="item.anwser3"></span>
+    </div>
+    <div  class="{{getItemDivClass('D')}} am-vertical-align-middle" ng-show="anwser4Visible" ng-click="setChoose('D')">
+        <div  ng-show="isImgDivVisible('D')" class="{{getItemAnwserDivClass('D')}} am-fr">
+            <img class="img-item-pic " src="{{getImageRWUrl('D')}}"/>
+        </div>
+        <span ng-bind="item.anwser4"></span>
+    </div>
+    <div class="dv-topic" data-role="content" role="main">
+        <div class="dv-item-button am-fl"  ng-click="prevItem()">
+            <span ng-bind="examButtonCaption.prev">上一题</span>
+        </div>
+        <div class="dv-item-button am-fr"  ng-click="nextItem()">
+            <span  ng-bind="examButtonCaption.judge">提交</span>
+        </div>
+        <span ng-bind="paperConfig.itemNo"></span>/<span ng-bind="paperConfig.pageSize"></span><br /> 正确：<span ng-bind="paper.correctCount"></span>
+
+    </div>
+</div>
+
+<div class="am-modal am-modal-alert" tabindex="-1" id="init-alert">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">注意!</div>
+        <div class="am-modal-bd">
+            多选题将在您按下提交按钮后，<span>显示正确答案！</span><br/>
+            未选中的正确答案标记为：<span>对号，得分减半。</span><br/>误选到错误答案将标记为：<span>错误符号</span>
+        </div>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn">确定</span>
+        </div>
+    </div>
+</div>
+<div class="am-modal am-modal-alert" tabindex="-1" id="anwser-alert">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">友情提示：</div>
+        <div class="am-modal-bd">
+            请选择至少一个答案！
+        </div>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn">确定</span>
+        </div>
+    </div>
+</div>
+<div class="am-modal am-modal-alert" tabindex="-1" id="post-alert">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">友情提示：</div>
+        <div class="am-modal-bd">
+            很遗憾您的成绩并不理想，得分{{paper.score}}分 <br />
+        </div>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn">确定</span>
+        </div>
+    </div>
+</div>
+
+<div class="am-modal am-modal-alert" tabindex="-1" id="post-success-alert">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">友情提示：</div>
+        <div class="am-modal-bd">
+            成绩不错!你的得分为:{{paper.score}}分 答题完成!
+        </div>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn">确定</span>
+        </div>
+    </div>
+</div>
+<div style="visibility: hidden">
+    <input type="text" th:value="*{choose}" id="choose" />
+</div>
+</body>
+</html>
